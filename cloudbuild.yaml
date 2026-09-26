@@ -7,10 +7,10 @@ steps:
     args: ['-c', 'pip install -r requirements.txt && pytest test_app.py -v']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/REPO_NAME/JOB_NAME', '.']
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/cicd-rag-repo/movie-rag-job', '.']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/REPO_NAME/JOB_NAME']
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/cicd-rag-repo/movie-rag-job']
 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
@@ -18,8 +18,8 @@ steps:
       - 'run'
       - 'jobs'
       - 'deploy'
-      - 'JOB_NAME'
-      - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/REPO_NAME/JOB_NAME'
+      - 'movie-rag-job'
+      - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/cicd-rag-repo/movie-rag-job'
       - '--region=us-central1'
 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -28,10 +28,10 @@ steps:
       - 'run'
       - 'jobs'
       - 'execute'
-      - 'JOB_NAME'
+      - 'movie-rag-job'
       - '--region=us-central1'
       - '--wait'
 
 images:
-  - 'us-central1-docker.pkg.dev/$PROJECT_ID/REPO_NAME/JOB_NAME'
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/cicd-rag-repo/movie-rag-job'
 
